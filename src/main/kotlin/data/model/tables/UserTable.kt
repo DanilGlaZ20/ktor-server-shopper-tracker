@@ -2,7 +2,7 @@ package com.project.data.model.tables
 
 import org.jetbrains.exposed.sql.Table
 
-class UserTable: Table() {
+object UserTable: Table("users") {
     val id = integer(name = "id").autoIncrement()
     val username = varchar("username", 64)
     val password = varchar("password", 64)

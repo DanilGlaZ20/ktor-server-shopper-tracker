@@ -2,7 +2,7 @@ package com.project.data.model.tables
 
 import org.jetbrains.exposed.sql.Table
 
-class CategoryTable: Table() {
+object CategoryTable: Table("Categories") {
     val categoryId = integer("category_id").autoIncrement()
     val userId = integer("user_id")
     val categoryTitle = varchar("category_title", 255)
