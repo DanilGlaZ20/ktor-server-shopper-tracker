@@ -1,5 +1,8 @@
 package com.project.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class ProductModel(
     val productId: Int,
     val categoryId: Int,
