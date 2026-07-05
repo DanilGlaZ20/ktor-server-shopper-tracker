@@ -1,0 +1,9 @@
+ktor:
+  deployment:
+    port: 8080
+  application:
+    modules:
+      - com.project.SerializationKt.configureSerialization
+      - com.project.SecurityKt.configureSecurity
+      - com.project.PostgresKt.configurePostgres
+      - com.project.RoutingKt.configureRouting
