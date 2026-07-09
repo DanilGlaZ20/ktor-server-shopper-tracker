@@ -7,10 +7,24 @@ import com.project.plugins.DatabasesFactory.dbQuery
 import com.project.utils.Modifier
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 
 class UserRepositoryIImpl: UserRepository, Modifier<UserModel> {
+    override suspend fun registerUser(user: UserModel) {
+        dbQuery {
+            UserTable.insert { table ->
+                table[id] = user.id
+                table[username] = user.username
+                table[password] = user.password
+                table[phone] = user.phone
+
+
+            }
+        }
+    }
+
     override suspend fun getUserByPhone(phone: String): UserModel? {
         return dbQuery {
             UserTable.select(UserTable.phone eq phone).map { rowToItem(row = it) }.singleOrNull()

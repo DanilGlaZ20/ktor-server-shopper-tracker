@@ -21,6 +21,7 @@ class ProductRepositoryImpl: ItemRepository<ProductModel>, Modifier<ProductModel
             ProductTable.insert { table->
                 table[ProductTable.productId] = item.productId
                 table[ProductTable.productTitle] = item.productTitle
+                table[ProductTable.productDescription] = item.productDescription
             }
         }
     }
