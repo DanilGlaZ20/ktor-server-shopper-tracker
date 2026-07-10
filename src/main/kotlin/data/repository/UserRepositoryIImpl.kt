@@ -2,6 +2,7 @@ package com.project.data.repository
 
 import com.project.data.model.UserModel
 import com.project.data.model.tables.UserTable
+import com.project.data.model.tables.UserTable.id
 import com.project.domain.repository.UserRepository
 import com.project.plugins.DatabasesFactory.dbQuery
 import com.project.utils.Modifier
@@ -13,15 +14,14 @@ import org.jetbrains.exposed.sql.selectAll
 
 class UserRepositoryIImpl: UserRepository, Modifier<UserModel> {
     override suspend fun registerUser(user: UserModel) {
-        dbQuery {
+         return dbQuery {
             UserTable.insert { table ->
-                table[id] = user.id
                 table[username] = user.username
                 table[password] = user.password
                 table[phone] = user.phone
-
-
             }
+
+
         }
     }
 

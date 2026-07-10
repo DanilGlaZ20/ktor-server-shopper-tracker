@@ -12,6 +12,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.and
 import org.jetbrains.exposed.sql.deleteWhere
 import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 
@@ -19,15 +20,16 @@ class ProductRepositoryImpl: ItemRepository<ProductModel>, Modifier<ProductModel
     override suspend fun addItem(item: ProductModel) {
         dbQuery {
             ProductTable.insert { table->
-                table[ProductTable.productId] = item.productId
+                table[ProductTable.categoryId] = item.categoryId ?: 0
                 table[ProductTable.productTitle] = item.productTitle
                 table[ProductTable.productDescription] = item.productDescription
+                table[ProductTable.isBuy] = item.isBought
             }
         }
     }
 
-    override suspend fun getItems(): List<ProductModel> {
-       return dbQuery { ProductTable.selectAll().mapNotNull { row -> rowToItem(row) } }
+    override suspend fun getItems(otherId: Int): List<ProductModel> {
+       return dbQuery { ProductTable.select(ProductTable.categoryId.eq(otherId)).mapNotNull { row -> rowToItem(row) } }
     }
 
     override suspend fun updateItem(item: ProductModel, otherId: Int) {
@@ -35,13 +37,16 @@ class ProductRepositoryImpl: ItemRepository<ProductModel>, Modifier<ProductModel
            (ProductTable.productId eq item.productId)and (ProductTable.categoryId eq otherId)
        }) { table ->
            table[ProductTable.productId] = item.productId
+           table[ProductTable.categoryId] = item.categoryId ?: 0
            table[ProductTable.productTitle] = item.productTitle
+           table[ProductTable.productDescription] = item.productDescription
+           table[ProductTable.isBuy] = item.isBought?: false
 
        } }
     }
 
     override suspend fun removeItem(itemId: Int, otherId: Int) {
-        dbQuery { ProductTable.deleteWhere { (ProductTable.productId eq itemId) and (ProductTable.productId eq otherId) } }
+        dbQuery { ProductTable.deleteWhere { (ProductTable.productId eq itemId) and (ProductTable.categoryId eq otherId) } }
     }
     override fun rowToItem(row: ResultRow?): ProductModel? {
         if (row == null) return null
