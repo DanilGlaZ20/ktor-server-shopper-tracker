@@ -8,7 +8,7 @@ class ProductUseCase(
 ) {
     suspend fun addProduct(product: ProductModel) = productRepository.addItem(product)
 
-    suspend fun getAllProducts():List<ProductModel> = productRepository.getItems()
+    suspend fun getAllProducts(categoryId: Int):List<ProductModel> = productRepository.getItems(categoryId)
 
     suspend fun updateProduct(product: ProductModel, categoryId: Int) = productRepository.updateItem(product, categoryId)
 
