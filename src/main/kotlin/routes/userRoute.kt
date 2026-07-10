@@ -34,7 +34,8 @@ fun Route.userRoute(userUseCase: UserUseCase) {
                 phone = registerRequest.phone,
             )
             userUseCase.registerUser(user)
-            call.respond(HttpStatusCode.OK, BaseResponse(true, userUseCase.getnerateToken(user)))
+            val token = userUseCase.getnerateToken(user)
+            call.respond(HttpStatusCode.OK, BaseResponse(true, token))
 
         }catch (e: Exception) {
             call.respond(HttpStatusCode.Conflict, BaseResponse(false, e.message ?: Constants.Error.GENERAL ))
