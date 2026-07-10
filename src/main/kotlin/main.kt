@@ -11,12 +11,14 @@ import com.project.plugins.DatabasesFactory.initializeDatabase
 import com.project.plugins.configureRouting
 import com.project.plugins.configureSecurity
 import com.project.plugins.configureSerialization
+import com.project.utils.CategoryFinder
 import io.ktor.server.engine.*
 import io.ktor.server.application.*
+import io.ktor.server.netty.EngineMain
 import org.jetbrains.exposed.sql.Database
 
 fun main(args: Array<String>) {
-    io.ktor.server.netty.EngineMain.main(args)
+    EngineMain.main(args)
 }
 
 fun Application.module() {
@@ -25,7 +27,7 @@ fun Application.module() {
     val categoryRepository = CategoryRepositoryImpl()
     val productRepository = ProductRepositoryImpl()
     val userUseCase = UserUseCase(userRepository, jwtService)
-    val categoryUseCase = CategoryUseCase(categoryRepository)
+    val categoryUseCase = CategoryUseCase(categoryRepository, categoryRepository)
     val productUseCase = ProductUseCase(productRepository)
     initializeDatabase()
     configureSerialization()
