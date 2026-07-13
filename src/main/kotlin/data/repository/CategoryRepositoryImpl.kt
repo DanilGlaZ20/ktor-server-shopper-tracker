@@ -6,7 +6,7 @@ import com.project.data.model.tables.CategoryTable.categoryId
 import com.project.data.model.tables.UserTable
 import com.project.domain.repository.ItemRepository
 import com.project.plugins.DatabasesFactory.dbQuery
-import com.project.utils.CategoryFinder
+import com.project.utils.IdFinder
 import com.project.utils.Modifier
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
@@ -17,7 +17,7 @@ import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.update
 
-class CategoryRepositoryImpl: ItemRepository<CategoryModel>, Modifier<CategoryModel>, CategoryFinder {
+class CategoryRepositoryImpl: ItemRepository<CategoryModel>, Modifier<CategoryModel>, IdFinder<CategoryModel> {
     override suspend fun addItem(item: CategoryModel) {
         dbQuery {
                 CategoryTable.insert { table ->
@@ -63,7 +63,7 @@ class CategoryRepositoryImpl: ItemRepository<CategoryModel>, Modifier<CategoryMo
         )
     }
 
-    override suspend fun getCategoryById(id: Int): CategoryModel? {
+    override suspend fun getItemById(id: Int): CategoryModel? {
        return dbQuery {
            CategoryTable.select(CategoryTable.categoryId eq id).map{ row-> rowToItem(row) }.singleOrNull()
        }

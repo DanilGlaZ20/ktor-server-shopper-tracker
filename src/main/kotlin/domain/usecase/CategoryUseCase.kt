@@ -2,11 +2,11 @@ package com.project.domain.usecase
 
 import com.project.data.model.CategoryModel
 import com.project.domain.repository.ItemRepository
-import com.project.utils.CategoryFinder
+import com.project.utils.IdFinder
 
 class CategoryUseCase(
    private  val categoryRepository: ItemRepository<CategoryModel>,
-   private val categoryFinder: CategoryFinder
+   private val categoryFinder: IdFinder<CategoryModel>
 ) {
      suspend fun addCategory(category: CategoryModel) = categoryRepository.addItem(category)
 
@@ -16,6 +16,6 @@ class CategoryUseCase(
 
     suspend fun removeCategory(categoryId: Int, userId: Int ) = categoryRepository.removeItem(categoryId, userId)
 
-    suspend fun getCategoryById(categoryId: Int) = categoryFinder.getCategoryById(categoryId)
+    suspend fun getCategoryById(categoryId: Int) = categoryFinder.getItemById(categoryId)
 
 }
