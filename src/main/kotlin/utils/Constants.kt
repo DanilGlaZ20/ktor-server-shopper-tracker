@@ -13,7 +13,7 @@ class Constants{
         const val ADDED_SUCCESSFULLY = "Added Successfully"
         const val REMOVED_SUCCESSFULLY = "Removed Successfully"
         const val EDITED_SUCCESSFULLY = "Edited Successfully"
-
+        const val PARTICIPANT_ADDED = "Participant added Succesfully!"
     }
     object Value{
         const val ID = "id"

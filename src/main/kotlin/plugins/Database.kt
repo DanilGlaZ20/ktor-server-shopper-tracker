@@ -2,6 +2,7 @@ package com.project.plugins
 
 import com.project.data.model.tables.CategoryTable
 import com.project.data.model.tables.ProductTable
+import com.project.data.model.tables.ShoppingParticipantTable
 import com.project.data.model.tables.UserTable
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
@@ -24,7 +25,7 @@ object DatabasesFactory{
        Database.connect(getHikariDataSource())
        transaction{
            SchemaUtils.create(
-               UserTable, CategoryTable, ProductTable
+               UserTable, CategoryTable, ProductTable, ShoppingParticipantTable
            )
        }
    }
